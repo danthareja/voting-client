@@ -5,7 +5,10 @@ class Voting extends React.Component {
     return (
       <div className="voting">
       {this.props.pair.map(entry => 
-        <button key={entry}>
+        <button 
+          key={entry}
+          onClick={() => this.props.vote(entry)}
+        >
           <h1>{entry}</h1>
         </button>
       )}
@@ -18,7 +21,8 @@ class Voting extends React.Component {
 // as properties on the constructor instead of in the class body.
 
 Voting.propTypes = {
-  pair: React.PropTypes.arrayOf(React.PropTypes.string)
+  pair: React.PropTypes.arrayOf(React.PropTypes.string),
+  vote: React.PropTypes.func.isRequired
 };
 
 Voting.defaultProps = {
