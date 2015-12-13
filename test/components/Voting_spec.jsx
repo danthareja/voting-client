@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import {List} from 'immutable';
 import {expect} from 'chai';
 import {
   renderIntoDocument,
@@ -12,7 +14,7 @@ describe('Voting', () => {
 
   it('renders a pair of buttons', () => {
     const component = renderIntoDocument(
-      <Voting pair={['Trainspotting', '28 Days Later']} />
+      <Voting pair={List.of("Trainspotting", "28 Days Later")} />
     );
 
     const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
@@ -28,7 +30,7 @@ describe('Voting', () => {
 
     const component = renderIntoDocument(
       <Voting
-        pair={['Trainspotting', '28 Days Later']}
+        pair={List.of("Trainspotting", "28 Days Later")}
         vote={vote}
       />
     );
@@ -42,7 +44,7 @@ describe('Voting', () => {
   it('disables buttons when user has voted', () => {
     const component = renderIntoDocument(
       <Voting
-        pair={["Trainspotting", "28 Days Later"]}
+        pair={List.of("Trainspotting", "28 Days Later")}
         hasVoted="Trainspotting"
       />
     );
@@ -58,7 +60,7 @@ describe('Voting', () => {
   it('adds label to the voted entry', () => {
     const component = renderIntoDocument(
       <Voting
-        pair={["Trainspotting", "28 Days Later"]}
+        pair={List.of("Trainspotting", "28 Days Later")}
         hasVoted="Trainspotting"
       />
     );
@@ -76,9 +78,42 @@ describe('Voting', () => {
     const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
     expect(buttons.length).to.equal(0);
 
-    const winner = React.findDOMNode(component.refs.winner);
+    const winner = ReactDOM.findDOMNode(component.refs.winner);
     expect(winner).to.be.ok;
     expect(winner.textContent).to.contain('Trainspotting');
+  });
+
+  // This test will pass only if the `PureComponent` (or some alternative) is used
+  // https://github.com/gaearon/react-pure-render
+  it('renders as a pure component', () => {
+    const pair = ['Trainspotting', '28 Days Later'];
+    const div = document.createElement('div');
+
+    let component = ReactDOM.render(<Voting pair={pair} />, div);
+    let firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    expect(firstButton.textContent).to.equal('Trainspotting');
+
+    // Variation to the deprecated `setProps` test helper
+    // Using ReactDOM.render with the same div reference
+    // and component type will just update the props
+    pair[0] = 'Sunshine';
+    component = ReactDOM.render(<Voting pair={pair} />, div);
+    firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    expect(firstButton.textContent).to.equal('Trainspotting');
+  });
+
+  it('does update DOM when prop changes', () => {
+    const pair = List.of('Trainspotting', '28 Days Later');
+    const div = document.createElement('div');
+
+    let component = ReactDOM.render(<Voting pair={pair} />, div);
+    let firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    expect(firstButton.textContent).to.equal('Trainspotting');
+
+    const newPair = pair.set(0, 'Sunshine');
+    component = ReactDOM.render(<Voting pair={newPair} />, div);
+    firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    expect(firstButton.textContent).to.equal('Sunshine');
   });
 
 });

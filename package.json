@@ -8,6 +8,7 @@
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
     "test:watch": "npm run test -- --watch"
   },
+  "repository": "https://github.com/danthareja/voting-client",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -34,6 +35,7 @@
   "dependencies": {
     "immutable": "^3.7.5",
     "react": "^0.14.3",
-    "react-dom": "^0.14.3"
+    "react-dom": "^0.14.3",
+    "react-pure-render": "^1.0.2"
   }
 }

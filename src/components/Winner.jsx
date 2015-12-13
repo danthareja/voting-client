@@ -1,10 +1,11 @@
 import React from 'react';
+import PureComponent from 'react-pure-render/component';
 
 const propTypes = {
   winner: React.PropTypes.string
 };
 
-class Winner extends React.Component {
+class Winner extends PureComponent {
   render() {
     return (
       <div className="winner">

@@ -1,19 +1,21 @@
 import React from 'react';
+import {List} from 'immutable';
+import PureComponent from 'react-pure-render/component';
 import Winner from './Winner';
 import Vote from './Vote';
 
 const propTypes = {
-  pair: React.PropTypes.arrayOf(React.PropTypes.string),
+  pair: React.PropTypes.instanceOf(List),
   vote: React.PropTypes.func,
   winner: React.PropTypes.string,
   hasVoted: React.PropTypes.string
 };
 
 const defaultProps = {
-  pair: []
+  pair: List()
 };
 
-class Voting extends React.Component {
+class Voting extends PureComponent {
   render() {
     return (
       <div> {

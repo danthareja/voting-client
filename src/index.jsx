@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {List} from 'immutable';
 import Voting from './components/Voting';
 
-const pair = ['Trainspotting', '28 Days Later'];
+const pair = List.of('Trainspotting', '28 Days Later');
 
 ReactDOM.render(
   <Voting pair={pair} />,

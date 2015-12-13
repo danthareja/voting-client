@@ -1,7 +1,9 @@
 import React from 'react';
+import {List} from 'immutable';
+import PureComponent from 'react-pure-render/component';
 
 const propTypes = {
-  pair: React.PropTypes.arrayOf(React.PropTypes.string),
+  pair: React.PropTypes.instanceOf(List),
   vote: React.PropTypes.func,
   hasVoted: React.PropTypes.string
 };
@@ -10,7 +12,7 @@ const defaultProps = {
   pair: []
 };
 
-class Vote extends React.Component {
+class Vote extends PureComponent {
   isDisabled() {
     return !!this.props.hasVoted
   }
